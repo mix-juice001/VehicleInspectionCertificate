@@ -1,0 +1,64 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE')
+        classpath('org.springframework:springloaded:1.2.1.RELEASE')
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(AbstractCompile) each { it.options.encoding = 'UTF-8' }
+tasks.withType(GroovyCompile) each { it.groovyOptions.encoding = 'UTF-8' }
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
+
+jar {
+    baseName = 'VehicleInspectionCertificate'
+    version = '0.1.0'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    def springBootVersion = '1.2.3'
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}.RELEASE")
+//    compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}.RELEASE")
+    compile("org.thymeleaf:thymeleaf-spring4");
+    compile('com.google.zxing:core:3.2.0')
+    compile('com.google.zxing:javase:3.2.0')
+    //compile files("activemq-all-5.4.3.jar");
+    //runtime files("log4j-1.2.14.jar")
+
+    compile("com.h2database:h2:1.4.181")
+    compile("commons-lang:commons-lang:2.6")
+
+//    compile("org.mybatis:mybatis:3.2.7")
+//    compile("org.mybatis:mybatis-spring:1.2.2")
+    //compile("org.springframework:springloaded:1.2.1.RELEASE")
+    runtime("postgresql:postgresql:9.1-901-1.jdbc4")
+
+
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}.RELEASE")
+    testCompile("org.spockframework:spock-core:0.7-groovy-2.0")
+    testCompile("org.spockframework:spock-spring:0.7-groovy-2.0")
+}
