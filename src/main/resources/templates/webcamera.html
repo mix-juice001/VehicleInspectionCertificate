@@ -49,6 +49,9 @@
 			#trim {
 				background-color:#383838;
 			}
+			#changeCamera {
+				background-color:#008800;
+			}
 			#border1 {
 				margin: 30px 30px;
 				padding: 10px;
@@ -108,6 +111,7 @@
 			<button id="start">start</button>
 			<button id="submit">submit</button>
 			<button id="trim">trim</button>
+			<button id="changeCamera">changeCamera</button>
 		</div>
 
         <form id="form1" method="get">
@@ -119,6 +123,7 @@
 
 	</body>
 	<script>
+		<!--
 		var video = document.querySelector('video');
 		var canvas = document.querySelector('canvas');
 		var ctx = canvas.getContext('2d');
@@ -229,6 +234,63 @@
 	    		}
             });
     	});
+
+		//カメラを取得・切り替える
+		var cameraData = [];
+		MediaStreamTrack.getSources(function(data){
+			//カメラ情報を取得して、出力する
+			var strCamera = "";
+			var len = data.length;
+			for (var i = 0 ; i < len ; i ++) {
+				if (data[i].kind == "video") {
+					cameraData.push(data[i]);
+				}
+			}
+			if (cameraData.length == 0) {
+				alert("カメラが見つかりません");
+				return;
+			}
+		});
+		var cnt = 0;
+		var localStream = null;
+
+		//カメラ切り替えボタンクリックイベント
+		$("#changeCamera").click(function() {
+		   //カメラを順番に切り替える
+			cnt++;
+			if( cnt == cameraData.length ){
+				cnt = 0;
+			}
+			alert(cameraData[cnt].id);
+			//カメラ取得
+			var video = document.getElementById('myVideo');
+
+			navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia;
+			window.URL = window.URL || window.webkitURL;
+
+			//カメラ再生中の場合は切り替えのため、一旦停止する
+			if( localStream ){
+				localStream.stop();
+			}
+
+			//カメラをIDを使用して取得する
+			navigator.getUserMedia({
+				video: {
+					optional: [{sourceId: cameraData[cnt].id }] //カメラIDを直接指定する
+				},
+				audio: false
+			},
+			function(stream) {
+				//切り替え時にカメラを停止するため、情報を保存しておく
+				localStream = stream;
+				//カメラをvideoに結びつける
+				video.src = window.URL.createObjectURL(stream);
+			},
+			function(err) {
+				//エラー処理
+			})
+		});
+		-->
 	</script>
 </html>
 
