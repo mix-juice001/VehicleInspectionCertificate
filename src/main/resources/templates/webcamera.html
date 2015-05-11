@@ -145,17 +145,6 @@
 			alert("未対応ブラウザです。");
 		}
 
-
-		window.URL = window.URL || window.webkitURL;
-		navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-								  navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-		navigator.getUserMedia({video: true}, function(stream) {
-		  video.src = window.URL.createObjectURL(stream);
-		  localMediaStream = stream;
-		}, onFailSoHard);
-
-
 		//button event
 		$("#capture").click(function() {
 			console.log("capture");
@@ -226,7 +215,6 @@
 		var cameraData = [];
 		MediaStreamTrack.getSources(function(data){
 			//カメラ情報を取得して、出力する
-			var strCamera = "";
 			var len = data.length;
 			for (var i = 0 ; i < len ; i ++) {
 				if (data[i].kind == "video") {
@@ -248,7 +236,6 @@
 			if( cnt == cameraData.length ){
 				cnt = 0;
 			}
-			alert(cameraData[cnt].id);
 			//カメラ取得
 			var video = document.getElementById('myVideo');
 
@@ -256,7 +243,7 @@
 			window.URL = window.URL || window.webkitURL;
 
 			//カメラ再生中の場合は切り替えのため、一旦停止する
-			if( localStream ){
+			if (localStream) {
 				localStream.stop();
 			}
 
