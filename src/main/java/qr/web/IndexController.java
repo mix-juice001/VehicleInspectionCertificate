@@ -8,7 +8,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    String start() {
+    String index() {
+        return "index";
+    }
+
+    @RequestMapping(value = "/webcamera", method = RequestMethod.GET)
+    String webcamera() {
         return "webcamera";
+    }
+
+    @RequestMapping(value = "/file")
+    String fileApi() {
+        return "fileapi";
     }
 }

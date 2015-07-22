@@ -9,7 +9,7 @@ import java.io.*;
 public class FileDecoder {
     public void decodeFile(String base64String) {
         try {
-            BufferedOutputStream fo = new BufferedOutputStream(new FileOutputStream(new File("/Users/takumasetoguchi/hogehoge.png")));
+            BufferedOutputStream fo = new BufferedOutputStream(new FileOutputStream(new File("/Users/setoguchi/hogehoge.png")));
             ByteArrayInputStream bi = new ByteArrayInputStream(Base64.decode(base64String));
 
             int ctx;

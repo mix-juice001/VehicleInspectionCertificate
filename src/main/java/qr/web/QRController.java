@@ -19,14 +19,21 @@ public class QRController {
 
     @RequestMapping(value = "/qr/read", method = RequestMethod.POST)
     String hoge(@RequestParam("q") String param) {
-        String base64String = param.split(",")[1];
-        System.out.println(base64String);
-        base64String = base64String.replaceAll(" ", "+");//FIXME TODO jQuery.ajax��data��+��data�̋�؂��space�ɂȂ�̂Ŏb��
-        System.out.println(base64String);
+        System.out.println("***** hoge is called..." );
+        //初年度登録年月/有効期限の満了する月/形式/前前重量/前後重量/後前重量/後後重量/
+        //2/-117510101/141115/0308/LA
+        try {
+            String base64String = param.split(",")[1];
+            System.out.println(base64String);
+            base64String = base64String.replaceAll(" ", "+");//FIXME TODO jQuery.ajaxのdataは+がdataの区切りでspaceになるので暫定対応処理
+            System.out.println(base64String);
 //        qrReader.decodeFile(base64String);
-        decoder.decodeFile(base64String);
-        String result = qrReader.readQRCoed(base64String);
-        System.out.println("**** " + result);
-        return result;
+            decoder.decodeFile(base64String);
+            String result = qrReader.readQRCoed(base64String);
+            System.out.println("**** " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "2/-117510101/141115/0308/LA";
     }
 }
